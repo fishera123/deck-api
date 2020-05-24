@@ -3,6 +3,7 @@ package api
 import (
 	dto "deck-api/pkg/dtos"
 	"encoding/json"
+	"errors"
 	"net/http"
 )
 
@@ -57,4 +58,41 @@ func (app *Application) showDeck(w http.ResponseWriter, req *http.Request) {
 	}
 
 	app.httpOutOk(dto.ToOpenDeckDto(deck), w)
+}
+
+func (app *Application) drawDeck(w http.ResponseWriter, req *http.Request) {
+	var bodyJson struct {
+		Count int64 `json:"count"`
+	}
+	err := json.NewDecoder(req.Body).Decode(&bodyJson)
+	if err != nil {
+		app.handleClientError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	if (bodyJson.Count == 0 || bodyJson.Count > 52) || err != nil {
+		app.handleClientError(w, http.StatusUnprocessableEntity, errors.New("invalid count query param"))
+		return
+	}
+	params := mux.Vars(req)
+	id := params["id"]
+
+	if err != nil {
+		app.handleServerError(w, err)
+		return
+	}
+
+	deck, err := app.DeckModel.Get(id)
+	if err != nil {
+		app.handleNotFoundError(w)
+		return
+	}
+
+	drawnCards, err := app.DrawDeck(deck, bodyJson.Count) //todo get count query
+
+	if err != nil {
+		app.handleClientError(w, 400, err)
+	}
+
+	app.httpOutOk(dto.ToCardsDto(drawnCards), w)
 }

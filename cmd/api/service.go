@@ -40,6 +40,20 @@ func (app *Application) CreateDeck(cardCodes string, isShuffled bool) (models.De
 	return app.DeckModel.Create(cards, isShuffled), nil
 }
 
+func (app *Application) DrawDeck(deck models.Deck, count int64) (drawnCards []string, err error) {
+	remainingCards := deck.GetRemaining()
+	if remainingCards == 0 {
+		return drawnCards, errors.New("no remain cards left")
+	}
+	if remainingCards < count {
+		count = remainingCards
+	}
+	drawnCards = deck.Cards[:count]
+	deck.Cards = deck.Cards[count:]
+	app.DeckModel.Update(deck)
+	return drawnCards, nil
+}
+
 func createDefaultCardSequence() (codes []string) {
 	for _, suit := range models.SuitsSequence {
 		for _, card := range models.CardsSequence {
