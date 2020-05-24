@@ -20,12 +20,12 @@ func main() {
 	if err != nil {
 		errorLog.Fatal(err)
 	}
-	defer database.Close()
+	defer db.Close()
 
 	app := &api.Application{
 		ErrorLog:  errorLog,
 		InfoLog:   infoLog,
-		DeckModel: &db.DeckModel{DB: database},
+		DeckModel: &database.DeckModel{DB: db},
 	}
 
 	router := mux.NewRouter()
@@ -35,6 +35,6 @@ func main() {
 	app.Routes(router)
 
 	infoLog.Printf("Starting server on %s", ":8080")
-	err := http.ListenAndServe(":8080", router) // todo: read from env variable
+	err = http.ListenAndServe(":8080", router) // todo: read from env variable
 	errorLog.Fatal(err)
 }

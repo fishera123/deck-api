@@ -55,8 +55,8 @@ func (app *Application) DrawDeck(deck models.Deck, count int64) (drawnCards []st
 }
 
 func createDefaultCardSequence() (codes []string) {
-	for _, suit := range models.SuitsSequence {
-		for _, card := range models.CardsSequence {
+	for _, suit := range constants.SuitsSequence {
+		for _, card := range constants.CardsSequence {
 			code := fmt.Sprintf("%s%s", card, suit)
 			codes = append(codes, code)
 		}

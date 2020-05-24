@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func (app *Application) routerNotFound(w http.ResponseWriter, r *http.Request) {
