@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 func main() {
@@ -22,8 +23,9 @@ func main() {
 	defer database.Close()
 
 	app := &api.Application{
-		ErrorLog: errorLog,
-		InfoLog:  infoLog,
+		ErrorLog:  errorLog,
+		InfoLog:   infoLog,
+		DeckModel: &db.DeckModel{DB: database},
 	}
 
 	router := mux.NewRouter()
