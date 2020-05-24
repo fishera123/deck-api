@@ -16,3 +16,13 @@ func TestShuffle(t *testing.T) {
 		assert.NotEqual(deck.Shuffle().Cards, cards)
 	})
 }
+
+func TestGetRemaining(t *testing.T) {
+	assert := assert.New(t)
+
+	t.Run("should return correct number of remaining cards", func(t *testing.T) {
+		cards := []string{"9C", "10C"}
+		deck := Deck{DeckId: uuid.New(), IsShuffled: false, Cards: cards}
+		assert.Equal(deck.GetRemaining(), int64(2))
+	})
+}
