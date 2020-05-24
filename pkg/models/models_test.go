@@ -26,3 +26,12 @@ func TestGetRemaining(t *testing.T) {
 		assert.Equal(deck.GetRemaining(), int64(2))
 	})
 }
+
+func TestIsEmpty(t *testing.T) {
+	assert := assert.New(t)
+
+	t.Run("should return false when struct is not empty", func(t *testing.T) {
+		deck := Deck{DeckId: uuid.New(), IsShuffled: false}
+		assert.False(deck.IsEmpty())
+	})
+}

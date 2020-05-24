@@ -38,3 +38,23 @@ func (app *Application) createDeck(w http.ResponseWriter, req *http.Request) {
 
 	app.httpOutOk(dto.ToDeckDto(deck), w)
 }
+
+func (app *Application) showDeck(w http.ResponseWriter, req *http.Request) {
+
+	params := mux.Vars(req)
+	id := params["id"]
+	// todo: move to service, controllers shouldn't be using models directly
+	deck, err := app.DeckModel.Get(id)
+
+	if err != nil {
+		app.handleClientError(w, http.StatusNotFound, err)
+		return
+	}
+
+	if deck.IsEmpty() {
+		app.handleNotFoundError(w)
+		return
+	}
+
+	app.httpOutOk(dto.ToOpenDeckDto(deck), w)
+}

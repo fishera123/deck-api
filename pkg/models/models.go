@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"math/rand"
+	"reflect"
 
 	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
@@ -27,4 +28,8 @@ func (deck *Deck) Shuffle() *Deck {
 
 func (deck *Deck) GetRemaining() int64 {
 	return int64(len(deck.Cards))
+}
+
+func (deck *Deck) IsEmpty() bool {
+	return reflect.DeepEqual(deck, Deck{})
 }

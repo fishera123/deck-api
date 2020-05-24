@@ -9,6 +9,7 @@ func (app *Application) Routes(router *mux.Router) {
 
 	apiRouter.HandleFunc("/health", app.checkHealth).Methods("GET")
 	apiRouter.HandleFunc("/decks", app.createDeck).Methods("POST")
+	apiRouter.HandleFunc("/decks/{id}", app.showDeck).Methods("GET")
 
 	apiRouter.PathPrefix("/").HandlerFunc(app.routerNotFound)
 }
