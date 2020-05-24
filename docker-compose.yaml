@@ -1,0 +1,27 @@
+---
+version: "3.7"
+
+services:
+  go-rest-api:
+    build: .
+    container_name: deck-api-dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    links:
+      - db
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 5; done; /home/deck-api'
+
+  db:
+    container_name: database
+    image: postgres:12
+    environment:
+      POSTGRES_PASSWORD: verymuchsecret # todo: pass through env variables
+      POSTGRES_USER: deck_user
+      POSTGRES_DB: deck_db
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.data/postgres:/var/lib/postgresql/data
