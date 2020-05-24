@@ -1,11 +1,28 @@
 package api
 
 import (
+	"deck-api/pkg/constants"
 	"deck-api/pkg/models"
 	"errors"
 	"fmt"
 	"strings"
 )
+
+// validation should be handled in middleware, would be more cleaner
+// todo: this method can return an array of card codes which failed validation and return more detailed errors in response.
+func isValidCardCode(cards []string) bool {
+	for _, card := range cards {
+		// todo: remove code duplication
+		byteSlice := []byte(card)
+		suitValue := string(byteSlice[len(byteSlice)-1])
+		cardValue := string(byteSlice[:len(byteSlice)-1])
+
+		if !strings.Contains(constants.CardsString, cardValue) || !strings.Contains(constants.SuitsString, suitValue) {
+			return false
+		}
+	}
+	return true
+}
 
 func (app *Application) CreateDeck(cardCodes string, isShuffled bool) (models.Deck, error) {
 	var cards []string
