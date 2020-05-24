@@ -11,10 +11,10 @@ import (
 
 func newTestApplication(t *testing.T) *Application {
 	// mock out application dependencies
-	return &application{
-		errorLog:  log.New(ioutil.Discard, "", 0),
-		infoLog:   log.New(ioutil.Discard, "", 0),
-		deckModel: &mock.DeckModel{}, //pass mock model which implements deck model interface
+	return &Application{
+		ErrorLog:  log.New(ioutil.Discard, "", 0),
+		InfoLog:   log.New(ioutil.Discard, "", 0),
+		DeckModel: &mock.DeckModel{}, //pass mock model which implements deck model interface
 	}
 }
 
