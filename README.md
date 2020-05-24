@@ -3,4 +3,9 @@ Toggl Backend Unattended Programming Test
 
 ## setup and run
 
-docker-compose up --build
+`docker-compose up --build`
+
+
+# run tests
+
+`go test ./...`
