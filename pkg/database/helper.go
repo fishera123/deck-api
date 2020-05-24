@@ -1,6 +1,8 @@
 package database
 
 import (
+	"deck-api/pkg/models"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -11,6 +13,8 @@ func ConnectDb() (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+	db.LogMode(true)
+	db.AutoMigrate(&models.Deck{})
 	return db, nil
 
 }
