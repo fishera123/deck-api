@@ -14,7 +14,9 @@ type DeckModel struct {
 
 func (model *DeckModel) Create(cards []string, isShuffled bool) models.Deck {
 	deck := models.Deck{DeckId: uuid.New(), Cards: cards, IsShuffled: isShuffled}
-	// todo: check if its shuffled and shuffle cards
+	if deck.IsShuffled {
+		deck.Shuffle()
+	}
 	model.DB.NewRecord(deck)
 	model.DB.Create(&deck)
 

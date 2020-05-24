@@ -27,5 +27,10 @@ func TestCreateDeck(t *testing.T) {
 		deck, _ := app.CreateDeck(cardCodes, isShuffled)
 		assert.Len(deck.Cards, 52)
 	})
-
+	t.Run("should create deck with partial cards when request card codes exist", func(t *testing.T) {
+		cardCodes := "9C,10C"
+		isShuffled := false
+		deck, _ := app.CreateDeck(cardCodes, isShuffled)
+		assert.Len(deck.Cards, 2)
+	})
 }
